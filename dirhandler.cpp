@@ -17,9 +17,15 @@ QStringList DirHandler::dirList(const QString &root)
 		for (int i = 0; i < list.size(); i++)
 		{
 			QFileInfo fileInfo = list.at(i);
-			if (fileInfo.isDir())
+			if (fileInfo.isDir() && !fileInfo.fileName().startsWith("."))
 			{
 				const QString absPath = fileInfo.absoluteFilePath();
+
+				// If dirname is in blocking filters.
+				if (this->inFilters(absPath))
+				{
+					continue;
+				}
 				dir.setPath(absPath);
 
 				// Если в папке содержатся файлы, значит она не пустая.
@@ -65,7 +71,7 @@ quint64 DirHandler::dirSize(const QString &root)
 		for (int i = 0; i < list.size(); i++)
 		{
 			QFileInfo fileInfo = list.at(i);
-			if (fileInfo.isDir())
+			if (fileInfo.isDir() && !fileInfo.fileName().startsWith("."))
 			{
 				size += this->dirSize(fileInfo.absoluteFilePath());
 			}
@@ -76,8 +82,26 @@ quint64 DirHandler::dirSize(const QString &root)
 		}
 	}
 
-//	qDebug() << __FILE__ << __LINE__ << root << size;
 	return size;
+}
+
+/**
+ * @brief DirHandler::inFilters - Check if dirname is in blocked filters.
+ * @param dir - Dir name.
+ * @return - true if in, false if else.
+ */
+bool DirHandler::inFilters(const QString &dir)
+{
+	for (int i = 0; i < this->filters.size(); i++)
+	{
+		QRegExp regExp(this->filters.at(i), Qt::CaseInsensitive);
+		if (dir.contains(regExp))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void DirHandler::run()
@@ -101,4 +125,21 @@ DirHandler::DirHandler(const QString &root, QObject *parent) :
 	QThread(parent)
 {
 	this->root = root;
+}
+
+void DirHandler::setFilters(const QStringList &filters)
+{
+	this->filters = filters;
+	this->filters.removeDuplicates();
+
+	QList<QString>::iterator i;
+	for (i = this->filters.begin(); i != this->filters.end(); i++)
+	{
+		if ((*i).isEmpty())
+		{
+			this->filters.removeOne((*i));
+		}
+		(*i).replace(".", "\\.");
+		(*i).replace("*", ".*");
+	}
 }

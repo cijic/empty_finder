@@ -74,6 +74,10 @@ void MainWindow::onBtnScanClicked()
 	if (rootDir.exists())
 	{
 		this->dh = new DirHandler(root);
+
+		QStringList blockingFilters;
+		blockingFilters.append(this->ui->filtersLineEdit->text().split(";"));
+		this->dh->setFilters(blockingFilters);
 		connect(this->dh, SIGNAL(signalZeroSizeDirs(QStringList)), SLOT(slotFillTree(QStringList)));
 		connect(this->dh, SIGNAL(signalEmptyDir(QString)), SLOT(slotFillTree(QString)));
 		connect(this->dh, SIGNAL(signalCurrentDir(QString)), SLOT(slotCurrentDir(QString)));
@@ -132,6 +136,10 @@ void MainWindow::onBtnStopClicked()
 	this->dh->terminate();
 }
 
+/**
+ * @brief MainWindow::slotFillTree - Fill tree with data, if it empty.
+ * @param dirs - List of dirs.
+ */
 void MainWindow::slotFillTree(const QStringList &dirs)
 {
 	this->ui->statusBar->showMessage("Search finished.");
@@ -156,11 +164,19 @@ void MainWindow::slotFillTree(const QStringList &dirs)
 	}
 }
 
+/**
+ * @brief MainWindow::slotFillTree - Add element to tree.
+ * @param dir - Dirname.
+ */
 void MainWindow::slotFillTree(const QString &dir)
 {
 	this->ui->treeWidget->addTopLevelItem(this->addCheckableItem(dir));
 }
 
+/**
+ * @brief MainWindow::slotCurrentDir - Slot on signal, when checking dir.
+ * @param dir - Dirname.
+ */
 void MainWindow::slotCurrentDir(const QString &dir)
 {
 	this->ui->statusBar->showMessage("Checking: " + dir);
