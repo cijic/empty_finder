@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>1391321446_127067.ico</normaloff>1391321446_127067.ico</iconset>
+    <normaloff>zero.png</normaloff>zero.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTreeWidget" name="treeWidget">
@@ -118,7 +118,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Blocking filters</string>
+     <string>Exclude filters</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">

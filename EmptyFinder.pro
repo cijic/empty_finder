@@ -8,15 +8,18 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = DuplFinder
+TARGET = EmptyFinder
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    dirhandler.cpp
+		mainwindow.cpp \
+	dirhandler.cpp
 
 HEADERS  += mainwindow.h \
-    dirhandler.h
+	dirhandler.h
 
 FORMS    += mainwindow.ui
+
+OTHER_FILES += \
+    icon.ico
