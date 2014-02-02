@@ -23,6 +23,8 @@ class DirHandler : public QThread
 
 	signals:
 		void signalZeroSizeDirs(const QStringList &dirs);
+		void signalEmptyDir(const QString &dir);
+		void signalCurrentDir(const QString &dir);
 
 	public slots:
 

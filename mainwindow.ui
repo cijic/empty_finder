@@ -59,12 +59,12 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>470</x>
       <y>600</y>
-      <width>158</width>
+      <width>239</width>
       <height>25</height>
      </rect>
     </property>
@@ -77,7 +77,20 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="stopBtn">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Stop</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="delBtn">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Delete</string>
        </property>
